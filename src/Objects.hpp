@@ -11,7 +11,7 @@ public:
     Objects() = default;
 
     void update(float delta_time, float gravity);
-    void render(sf::RenderWindow& window);
+    void render(sf::RenderTarget &target);
 
     [[nodiscard]] size_t get_count() const;
     [[nodiscard]] size_t get_live_count() const;

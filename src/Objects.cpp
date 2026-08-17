@@ -129,7 +129,7 @@ void Objects::update(float delta_time, float gravity)
     m_pending_adds.clear();
 }
 
-void Objects::render(sf::RenderWindow& window)
+void Objects::render(sf::RenderTarget &target)
 {
     for (auto object : ObjectsViewer{*this})
     {
@@ -140,7 +140,7 @@ void Objects::render(sf::RenderWindow& window)
         sf::CircleShape circle{mass};
         circle.setPosition(object.get_position() - sf::Vector2f{mass, mass});
 
-        window.draw(circle);
+        target.draw(circle);
     }
 }
 

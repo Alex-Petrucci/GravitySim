@@ -1,6 +1,7 @@
 #include "Application.hpp"
 #include "Config.hpp"
 #include <sstream>
+#include <iostream>
 
 Application::Application()
     : m_window{sf::VideoMode{{INITIAL_WIDTH, INITIAL_HEIGHT}}, TITLE}
@@ -8,6 +9,28 @@ Application::Application()
     m_window.setFramerateLimit(FPS_CAP);
     m_window.setMinimumSize(sf::Vector2u{INITIAL_WIDTH, INITIAL_HEIGHT});
     m_window.setMaximumSize(sf::Vector2u{INITIAL_WIDTH, INITIAL_HEIGHT});
+
+    constexpr std::string_view SHADER_SOURCE = R"(
+uniform sampler2D texture;
+uniform float fade_factor;
+
+void main()
+{
+    vec2 uv = gl_TexCoord[0].xy;
+    vec4 c = texture2D(texture, uv);
+
+    c.rg *= fade_factor;
+    c.b = 0;
+
+    if (c.r < 0.05 && c.g < 0.05 && c.b < 0.05)
+    c.rgb = vec3(0.0);
+
+    gl_FragColor = c;
+}
+)";
+
+    if (!m_fade_shader.loadFromMemory(SHADER_SOURCE, sf::Shader::Type::Fragment))
+        std::cout << "Fade shader failed to load!\n";
 }
 
 void Application::run()
@@ -92,6 +115,17 @@ void Application::update(float delta_time)
 void Application::render(float delta_time)
 {
     m_window.clear();
+
+    m_fade_shader.setUniform("texture", m_trail_texture.getTexture());
+    m_fade_shader.setUniform("fade_factor", 0.95f);
+
+    m_trail_texture.draw(sf::Sprite{m_trail_texture.getTexture()}, &m_fade_shader);
+
+    m_objects.render(m_trail_texture);
+
+    m_trail_texture.display();
+
+    m_window.draw(sf::Sprite{m_trail_texture.getTexture()});
 
     m_objects.render(m_window);
 
