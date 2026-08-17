@@ -6,6 +6,13 @@ A C++ gravity simulator.
 
 ## Details
 * Click on the screen to add a new object.
+* <kbd>`</kbd>To toggle debug info.
+* <kbd>&uparrow;</kbd>/<kbd>&downarrow;</kbd>
+To change the object spawn size.
+* <kbd>&leftarrow;</kbd>/<kbd>&rightarrow;</kbd>
+To change the variance in spawn size.
+* <kbd>W</kbd>/<kbd>D</kbd> To change the maximum
+speed an object will spawn with.
 * Objects merge when they overlap.
 * Internally stores objects with SOA rather
 AOS for better cache performance.
@@ -28,13 +35,11 @@ This project uses CMake so build use the
 compiler/build system of your choice.
 
 Before building, you might want to configure 
-some things in [Config.hpp](src/Config.hpp)
-such as `G` (gravitational constant) and `C`
-(speed of light/speed limit). The defaults
-are just what I think looks good. The one most
-people will probably want to change is the
-`FPS_CAP` which has been set to 144hz as that is
-what my monitor can display.
+some things in [Config.hpp](src/Config.hpp). The defaults
+are just what I think looks good on my PC.
+The one most people will probably want to change 
+is the `FPS_CAP` which has been set to 144hz 
+as that is what my monitor can display.
 
 ### Run
 Just run the executable produced by the build.
