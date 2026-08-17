@@ -88,7 +88,7 @@ void Objects::update(float delta_time)
 
             const auto dist = (object.get_position() - other.get_position()).length();
 
-            if (dist <= object.get_mass() + other.get_mass())
+            if (dist - MERGE_TOLERANCE <= std::abs(object.get_mass() - other.get_mass()))
             {
                 const auto new_pos = (object.get_position() * object.get_mass()
                     + other.get_position() * other.get_mass())
