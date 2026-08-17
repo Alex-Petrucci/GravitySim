@@ -39,7 +39,7 @@ void Application::handle_events(const sf::Event& event, float delta_time)
             .y = static_cast<float>(mouse_pos.y),
             .x_velocity = static_cast<float>(rand() % 50 - 25),
             .y_velocity = static_cast<float>(rand() % 50 - 25),
-            .mass = 1.0f
+            .mass = static_cast<float>(rand() % 2) + 1.0f
         });
     }
 }
