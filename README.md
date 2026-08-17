@@ -7,6 +7,8 @@ A C++ gravity simulator.
 ## Details
 * Click on the screen to add a new object.
 * <kbd>`</kbd>To toggle debug info.
+* <kbd>R</kbd>To reset the simulation.
+* Scroll to change the gravity strength.
 * <kbd>&uparrow;</kbd>/<kbd>&downarrow;</kbd>
 To change the object spawn size.
 * <kbd>&leftarrow;</kbd>/<kbd>&rightarrow;</kbd>
