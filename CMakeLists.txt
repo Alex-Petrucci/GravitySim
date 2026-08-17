@@ -14,3 +14,10 @@ add_executable(GravitySim
         src/Objects.hpp)
 
 target_link_libraries(GravitySim PRIVATE SFML::Graphics)
+
+add_custom_command(
+        TARGET GravitySim POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_directory
+        ${CMAKE_SOURCE_DIR}/assets
+        $<TARGET_FILE_DIR:GravitySim>/assets
+)

@@ -41,7 +41,7 @@ ObjectView ObjectsViewer::operator[](size_t index) const
     return {m_objects, index};
 }
 
-void Objects::update(float delta_time)
+void Objects::update(float delta_time, float gravity)
 {
     for (auto object : ObjectsViewer{*this})
     {
@@ -61,7 +61,7 @@ void Objects::update(float delta_time)
                 + (pos.y - other.get_y()) * (pos.y - other.get_y()); // B^2
             const auto direction = (other.get_position() - pos).normalized();
 
-            acceleration += direction * G * other.get_mass() / (distance_squared + SOFTENING);
+            acceleration += direction * gravity * other.get_mass() / (distance_squared + SOFTENING);
         }
 
         if (acceleration.length() > C)
@@ -149,6 +149,11 @@ size_t Objects::get_count() const
     return m_x_positions.size();
 }
 
+size_t Objects::get_live_count() const
+{
+    return m_object_count;
+}
+
 void Objects::add_object(const ObjectDescription& desc)
 {
     if (m_free_stack.empty())
@@ -172,10 +177,27 @@ void Objects::add_object(const ObjectDescription& desc)
         m_masses[index] = desc.mass;
         m_is_alive[index] = true;
     }
+
+    ++m_object_count;
 }
 
 void Objects::remove_object(size_t index)
 {
     m_free_stack.push_back(index);
     m_is_alive[index] = false;
+    --m_object_count;
+}
+
+void Objects::reset()
+{
+    m_x_positions.clear();
+    m_y_positions.clear();
+    m_x_velocities.clear();
+    m_y_velocities.clear();
+    m_masses.clear();
+    m_is_alive.clear();
+    m_free_stack.clear();
+    m_pending_adds.clear();
+    m_pending_removes.clear();
+    m_object_count = 0;
 }

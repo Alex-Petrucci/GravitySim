@@ -10,13 +10,15 @@ public:
 
     Objects() = default;
 
-    void update(float delta_time);
+    void update(float delta_time, float gravity);
     void render(sf::RenderWindow& window);
 
     [[nodiscard]] size_t get_count() const;
+    [[nodiscard]] size_t get_live_count() const;
 
     void add_object(const class ObjectDescription& desc);
     void remove_object(size_t index);
+    void reset();
 
 private:
     std::vector<float> m_x_positions;
@@ -29,6 +31,8 @@ private:
     std::vector<size_t> m_free_stack;
     std::vector<ObjectDescription> m_pending_adds;
     std::vector<size_t> m_pending_removes;
+
+    size_t m_object_count = 0;
 };
 
 class ObjectView
