@@ -1,5 +1,14 @@
 #include "Objects.hpp"
 #include "Config.hpp"
+#include <numbers>
+
+static float mass_to_radius(float mass)
+{
+    // a = pi * r^2
+    // a / pi = r^2
+    // sqrt(a / pi) = r
+    return std::sqrt(mass / std::numbers::pi_v<float>);
+}
 
 ObjectsViewer::Iterator::Iterator(Objects& objects, size_t index)
     : m_objects{objects}
@@ -88,7 +97,9 @@ void Objects::update(float delta_time, float gravity)
 
             const auto dist = (object.get_position() - other.get_position()).length();
 
-            if (dist - MERGE_TOLERANCE <= std::abs(object.get_mass() - other.get_mass()))
+            if (dist - MERGE_TOLERANCE <=
+                std::abs(mass_to_radius(object.get_mass()) - mass_to_radius(other.get_mass()))
+            )
             {
                 const auto new_pos = (object.get_position() * object.get_mass()
                     + other.get_position() * other.get_mass())
@@ -135,10 +146,10 @@ void Objects::render(sf::RenderTarget &target)
     {
         if (!object.get_is_alive()) continue;
 
-        const auto mass = object.get_mass();
+        const auto radius = mass_to_radius(object.get_mass());
 
-        sf::CircleShape circle{mass};
-        circle.setPosition(object.get_position() - sf::Vector2f{mass, mass});
+        sf::CircleShape circle{radius};
+        circle.setPosition(object.get_position() - sf::Vector2f{radius, radius});
 
         target.draw(circle);
     }
