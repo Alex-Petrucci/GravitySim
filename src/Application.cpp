@@ -73,7 +73,7 @@ void Application::handle_events(const sf::Event& event, float delta_time)
             .y = static_cast<float>(mouse_event->position.y),
             .x_velocity = x_vel,
             .y_velocity = y_vel,
-            .mass = static_cast<float>(rand() % m_size_variance + 1 + m_size)
+            .mass = static_cast<float>(rand() % (m_size_variance + 1) + m_size)
         });
     }
 
