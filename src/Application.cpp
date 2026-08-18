@@ -58,11 +58,21 @@ void Application::handle_events(const sf::Event& event, float delta_time)
 
     if (const auto mouse_event = event.getIf<sf::Event::MouseButtonPressed>())
     {
+        float x_vel = 0.0f;
+        float y_vel = 0.0f;
+
+        // 0 has to handled separately because of % by 0 errors
+        if (m_max_start_speed != 0)
+        {
+            x_vel = static_cast<float>(rand() % (m_max_start_speed * 2) - m_max_start_speed);
+            y_vel = static_cast<float>(rand() % (m_max_start_speed * 2) - m_max_start_speed);
+        }
+
         m_objects.add_object({
             .x = static_cast<float>(mouse_event->position.x),
             .y = static_cast<float>(mouse_event->position.y),
-            .x_velocity = static_cast<float>(rand() % (m_max_start_speed * 2) - m_max_start_speed),
-            .y_velocity = static_cast<float>(rand() % (m_max_start_speed * 2) - m_max_start_speed),
+            .x_velocity = x_vel,
+            .y_velocity = y_vel,
             .mass = static_cast<float>(rand() % m_size_variance + 1 + m_size)
         });
     }
