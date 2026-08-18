@@ -96,10 +96,11 @@ void Objects::update(float delta_time, float gravity)
             if (!other.get_is_alive()) continue;
 
             const auto dist = (object.get_position() - other.get_position()).length();
+            const auto object_r = mass_to_radius(object.get_mass());
+            const auto other_r = mass_to_radius(other.get_mass());
+            const auto overlap = -dist + object_r + other_r;
 
-            if (dist - MERGE_TOLERANCE <=
-                std::abs(mass_to_radius(object.get_mass()) - mass_to_radius(other.get_mass()))
-            )
+            if (object_r / overlap >= MERGE_TOLERANCE || other_r / overlap >= MERGE_TOLERANCE)
             {
                 const auto new_pos = (object.get_position() * object.get_mass()
                     + other.get_position() * other.get_mass())

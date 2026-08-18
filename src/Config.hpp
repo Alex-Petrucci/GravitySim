@@ -7,4 +7,4 @@ constexpr int FPS_CAP           = 144;
 constexpr float G               = 4000.0f; // this is just the initial value and can be changed in the sim
 constexpr float C               = 300.0f;
 constexpr float SOFTENING       = 0.1f;
-constexpr float MERGE_TOLERANCE = 0.3f;
+constexpr float MERGE_TOLERANCE = 0.5f;
